@@ -19,7 +19,6 @@
         };
         var map = new kakao.maps.Map(container, options);
         
-        
         if (navigator.geolocation) {
             alert('위치정보 확인');
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -46,6 +45,7 @@
     }
 
     function error (err){
+        alert("위치 정보를 불러오지 못했습니다. 다시 시도 해주세요.");
         console.error(err);
     }
 
