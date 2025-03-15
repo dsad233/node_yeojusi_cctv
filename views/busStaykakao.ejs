@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCTY 불법 주차 단속 지역</title>
+    <title>버스 위치 정보</title>
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<%= KAKAO_JAVASCRIPT_KEY %>"></script>
 </head>
 <body>
@@ -25,7 +25,6 @@
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
             var navigator = navigator.geolocation.watchPosition(success,error,options);
             function success(position) {
-            // console.log(position);
             lat = position.coords.latitude,
             lon = position.coords.longitude; 
             var locPosition = new kakao.maps.LatLng(lat, lon);
@@ -34,6 +33,7 @@
             // 마커와 인포윈도우를 표시합니다
             displayMarker(locPosition);
 
+            // res.render로 넘어오는 데이터를 감싸서 마커를 찍어주는 로직.
             const data = JSON.parse('<%- JSON.stringify(data) %>');
             for(let i = 0; i < data.length; i++){
                 dataLocation(data[i].lon, data[i].lat);
@@ -76,7 +76,8 @@
 
     async function dataLocation(lon, lat){
         const markerArray = [];
-        var markerPosition  = new kakao.maps.LatLng(lon, lat); 
+        
+        var markerPosition  = new kakao.maps.LatLng(lat, lon); 
         markerArray.push(markerPosition);
 
         // 마커를 생성합니다
@@ -86,16 +87,14 @@
             });
         }
 
-        // 마커가 지도 위에 표시되도록 설정합니다
         await marker.setMap(map);
     }
 
     async function nowLocationMove() {
-        await map.setCenter(nowLocation);    
+        await map.setCenter(nowLocation);
     }
-
     </script>
-    <button onclick="window.location.href='/bus';">버스 위치 정보</button>
+    <button onclick="window.location.href='/'">홈으로</button>
     <button onclick="nowLocationMove()">현재위치로 이동</button>
 </body>
 </html>
